@@ -7,6 +7,7 @@ import OrderSummary from '@/components/ordering/OrderSummary';
 import PersonalInfo from '@/components/ordering/PersonalInfo';
 import DeliveryMethod from '@/components/ordering/DeliveryMethod';
 import PaymentOptions from '@/components/ordering/PaymentOptions';
+import { Button } from '@/components/ui/button';
 
 const JiraniCheckout = () => {
   const [step, setStep] = useState(1);
@@ -29,9 +30,9 @@ const JiraniCheckout = () => {
             </AnimatePresence>
              <div className='flex justify-end mt-8'>
                 {step === 1 && (
-                    <button onClick={() => setStep(2)} className='bg-primary text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform transform hover:scale-105 shadow-lg'>
+                    <Button onClick={() => setStep(2)} size="lg" className='bg-gradient-to-r from-amber-500 via-red-500 to-red-600 text-white font-bold shadow-lg transform transition-transform hover:scale-105 py-4 px-10 text-lg rounded-lg'>
                         Proceed to Payment
-                    </button>
+                    </Button>
                 )}
             </div>
           </div>

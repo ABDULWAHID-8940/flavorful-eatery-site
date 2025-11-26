@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, Trash2, ShoppingBag, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,7 +16,7 @@ const initialCartItems = [
     notes: 'Extra cheese, no onions',
     price: 320,
     quantity: 1,
-    image: '/api/placeholder/150/150',
+    image: 'https://storage.googleapis.com/dala-prod-public-storage/generated-images/7a324c89-1af0-4263-ac87-5b142101d8e1/alfredo-thumb-1-g9s7obf-1763447499760.webp',
     addons: [
       { name: 'Extra Cheese', price: 20 },
       { name: 'Herbs', price: 10 },
@@ -27,7 +28,7 @@ const initialCartItems = [
     notes: '',
     price: 150,
     quantity: 2,
-    image: '/api/placeholder/150/150',
+    image: 'https://storage.googleapis.com/dala-prod-public-storage/generated-images/7a324c89-1af0-4263-ac87-5b142101d8e1/fresh-juice-thumb-m0a3u2j-1764161203058.webp',
     addons: []
   },
 ];
@@ -81,7 +82,7 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }) => {
             </Button>
           </div>
           <p className="font-semibold text-lg text-gray-900 dark:text-white mt-2 sm:mt-0">
-            {totalPrice} ETB
+            {totalPrice.toFixed(2)} ETB
           </p>
         </div>
       </div>
@@ -94,7 +95,11 @@ const EmptyCart = () => (
         <ShoppingBag className="mx-auto h-24 w-24 text-gray-400 dark:text-gray-500" strokeWidth={1} />
         <h3 className="mt-4 text-2xl font-semibold text-gray-800 dark:text-white">Your cart is empty.</h3>
         <p className="mt-2 text-gray-500 dark:text-gray-400">Looks like you haven't added anything to your cart yet.</p>
-        <Button className="mt-6">Browse Menu</Button>
+        <Link to="/menu">
+            <Button size="lg" className="mt-6 bg-gradient-to-r from-amber-500 via-red-500 to-red-600 text-white font-bold shadow-lg transform transition-transform hover:scale-105">
+                Browse Menu
+            </Button>
+        </Link>
     </div>
 );
 
@@ -124,7 +129,11 @@ const PriceSummary = ({ items }) => {
                 <span>Total</span>
                 <span>{total.toFixed(2)} ETB</span>
             </div>
-            <Button className="w-full text-lg py-6">Proceed to Checkout</Button>
+            <Link to="/checkout">
+                <Button size="lg" className="w-full text-lg py-6 bg-gradient-to-r from-amber-500 via-red-500 to-red-600 text-white font-bold shadow-lg transform transition-transform hover:scale-105">
+                    Proceed to Checkout
+                </Button>
+            </Link>
         </div>
     );
 }
@@ -164,7 +173,9 @@ export default function CartPage() {
                   ))}
               </AnimatePresence>
               <div className="mt-6">
+                <Link to="/menu">
                   <Button variant="outline">Continue Browsing Menu</Button>
+                </Link>
               </div>
             </div>
           ) : <EmptyCart />}

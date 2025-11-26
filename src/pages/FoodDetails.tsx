@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 import { ChevronLeft, Star, Minus, Plus, Heart, ShoppingCart, Share2, Leaf, Wheat, Milk, Drumstick } from 'lucide-react';
 
 // Mock Data - In a real app, you'd fetch this based on itemId
@@ -73,10 +74,12 @@ const FoodDetails = () => {
     toast.success(`${dishData.name} added to your cart!`, {
       action: { label: 'View Cart', onClick: () => console.log('Navigate to cart') },
     });
-    // Vibrate on mobile
     if ('vibrate' in navigator) navigator.vibrate(100);
     setTimeout(() => setIsAdded(false), 2000); // Reset button state
   };
+
+  const addedButtonClass = 'bg-green-500';
+  const primaryButtonClass = 'bg-gradient-to-r from-amber-500 via-red-500 to-red-600 hover:scale-105';
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
@@ -120,7 +123,6 @@ const FoodDetails = () => {
               </div>
             </div>
 
-            {/* Ingredients */}
             <div>
               <h3 className="text-xl font-semibold mb-3">Ingredients</h3>
               <div className="flex flex-wrap gap-4">
@@ -133,7 +135,6 @@ const FoodDetails = () => {
               </div>
             </div>
 
-            {/* Nutrition */}
             <div>
               <h3 className="text-xl font-semibold mb-3">Nutrition Facts</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
@@ -144,21 +145,19 @@ const FoodDetails = () => {
               </div>
             </div>
             
-            {/* Actions */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
               <div className="flex items-center gap-4 bg-gray-100 dark:bg-gray-800 rounded-full p-2">
                 <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="p-2 rounded-full bg-white dark:bg-gray-700"><Minus size={16}/></button>
                 <span className="text-xl font-bold w-8 text-center">{quantity}</span>
                 <button onClick={() => setQuantity(q => q + 1)} className="p-2 rounded-full bg-white dark:bg-gray-700"><Plus size={16}/></button>
               </div>
-              <button onClick={handleAddToCart} className={`w-full text-white font-bold py-3 px-6 rounded-full flex items-center justify-center gap-2 transition-all duration-300 ${isAdded ? 'bg-green-500' : 'bg-red-600 hover:bg-red-700'}`}>
+              <Button onClick={handleAddToCart} size="lg" className={`w-full text-white font-bold rounded-full flex items-center justify-center gap-2 transition-all duration-300 transform ${isAdded ? addedButtonClass : primaryButtonClass}`}>
                 {isAdded ? <><Star size={20}/> Added!</> : <><ShoppingCart size={20}/> Add to Cart</>}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
 
-        {/* Reviews Section */}
         <div className="mt-16">
             <h2 className="text-3xl font-bold mb-6">Customer Reviews</h2>
             <div className='flex flex-col md:flex-row gap-8 items-start'>
@@ -179,7 +178,7 @@ const FoodDetails = () => {
                             </div>
                         ))}
                     </div>
-                     <button className="w-full mt-6 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 font-semibold py-2 px-4 rounded-lg hover:bg-red-200 dark:hover:bg-red-900 transition-colors">Write a Review</button>
+                     <Button variant="outline" className="w-full mt-6">Write a Review</Button>
                 </div>
                 <div className='w-full md:w-2/3 space-y-6'>
                     {dishData.reviews.items.map((review, i) => (
@@ -201,7 +200,6 @@ const FoodDetails = () => {
             </div>
         </div>
 
-        {/* Related Dishes */}
         <div className="mt-16">
             <h2 className="text-3xl font-bold mb-6">You May Also Like</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -218,16 +216,15 @@ const FoodDetails = () => {
         </div>
       </div>
 
-      {/* Sticky Mobile Bar */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-4 border-t border-gray-200 dark:border-gray-700 flex items-center gap-4">
         <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-full p-1">
             <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="p-2 rounded-full bg-white dark:bg-gray-700"><Minus size={14}/></button>
             <span className="text-lg font-bold w-6 text-center">{quantity}</span>
             <button onClick={() => setQuantity(q => q + 1)} className="p-2 rounded-full bg-white dark:bg-gray-700"><Plus size={14}/></button>
         </div>
-        <button onClick={handleAddToCart} className={`w-full text-white font-bold py-3 px-4 rounded-full flex items-center justify-center gap-2 transition-all duration-300 ${isAdded ? 'bg-green-500' : 'bg-red-600'}`}>
+        <Button onClick={handleAddToCart} size="lg" className={`w-full text-white font-bold rounded-full flex items-center justify-center gap-2 transition-all duration-300 transform ${isAdded ? addedButtonClass : primaryButtonClass}`}>
             {isAdded ? 'Added!' : `Add for ETB ${(dishData.price * quantity).toFixed(2)}`}
-        </button>
+        </Button>
       </div>
     </div>
   );
